@@ -1,3 +1,32 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Made by p4p1
+# Created on: Mon 03 Jul 2023 04:41:34 PM CEST
+# burp-http-to-notion.py
+# Description:
+#  A script that will integrate notion with Burp Suite.
+#  The objective is to upload a sitemap of the requests done by BurpSuite
+#  directly to notion.
+# How this was built:
+#  https://leosmith.wtf/
+# How to link to notion:
+#  To link this extention to notion there are two methods:
+#  1. Private:
+#      - navigate to https://www.notion.so/my-integrations
+#      - Create a new integration for burp suite
+#      - Copy the integration secret and keep it somewhere safe. (With this key
+#        you can then paste it inside of the form in the extention tab inside of burp)
+#      - Navigate to the notion page which you would like the root of SiteMap to
+#        be located.
+#      - Select the three dots at the top of the page (...) and navigate to Connections.
+#      - Add the extentions as connections to the page.
+#      - Inside of Burp paste the token inside of the form and select "Save Token"
+#  2. Public:
+#      - navigate to the following link: NOT IMPLEMENTED YET
+#      - Login and select which page you would like to share.
+#      - Copy the printed token.
+#      - Inside of Burp paste the token inside of the form and select "Save Token"
+
 from burp import IBurpExtender, IHttpListener, ITab
 from javax import swing
 from javax.swing import JFileChooser
@@ -224,7 +253,7 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
         self.drawUI()
         callbacks.registerHttpListener(self)
         callbacks.addSuiteTab(self)
-        callbacks.setExtensionName("SiteMap To Notion")
+        callbacks.setExtensionName("Burp HTTP to Notion")
 
 
     def drawUI(self):
@@ -293,7 +322,7 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
                                 )
 
     def getTabCaption(self):
-        return 'SiteMap To Notion'
+        return 'HTTP to Notion'
 
     def getUiComponent(self):
         return self.tab
