@@ -11,7 +11,12 @@
 #  https://leosmith.wtf/
 # How to link to notion:
 #  To link this extention to notion there are two methods:
-#  1. Private:
+#  1. Public:
+#      - navigate to the following link: http://leosmith.wtf/projects/burp-http-to-notion/
+#      - Login and select which page you would like to share.
+#      - Copy the printed token.
+#      - Inside of Burp paste the token inside of the form and select "Save Token"
+#  2. Private:
 #      - navigate to https://www.notion.so/my-integrations
 #      - Create a new integration for burp suite
 #      - Copy the integration secret and keep it somewhere safe. (With this key
@@ -20,11 +25,6 @@
 #        be located.
 #      - Select the three dots at the top of the page (...) and navigate to Connections.
 #      - Add the extentions as connections to the page.
-#      - Inside of Burp paste the token inside of the form and select "Save Token"
-#  2. Public:
-#      - navigate to the following link: NOT IMPLEMENTED YET
-#      - Login and select which page you would like to share.
-#      - Copy the printed token.
 #      - Inside of Burp paste the token inside of the form and select "Save Token"
 
 from burp import IBurpExtender, IHttpListener, ITab
