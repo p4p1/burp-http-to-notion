@@ -250,18 +250,35 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
         self.colName = [ 'Method', 'status', 'path' ]
         self.bigest_length = 0
         self.req_data = []
+        self.api_token = self._callbacks.loadExtensionSetting('token')
         self.drawUI()
         callbacks.registerHttpListener(self)
         callbacks.addSuiteTab(self)
         callbacks.setExtensionName("Burp HTTP to Notion")
 
+        if self.api_token:
+            self.nw = NotionWrapper(token=self.api_token)
+            jdata = self.nw.get_pages()
+            for data in jdata:
+                print(data["parent"]["type"])
+                if data["parent"]["type"] == "page_id":
+                    self.notion_id_list.append(data["id"])
+                    self.notion_title_list.append(data["properties"]["title"]["title"][0]["text"]["content"])
+                else:
+                    print('parent is database skiping since no title available')
+            self.uiRootList = swing.JList(self.notion_title_list, valueChanged=self.menu_click)
+            self.uiRootPagePane.setViewportView(self.uiRootList)
 
     def drawUI(self):
         self.tab = swing.JPanel()
         # This part is just for the export button
         self.uiTitleLabel= swing.JLabel('Please set notion token and select the correct shared page before running:')
         self.uiTitleLabel.setFont(Font('Tahoma', Font.BOLD, 14))
-        self.uiTokenField = swing.JTextField('insert Token')
+        self.uiTokenField = None
+        if self.api_token == None:
+            self.uiTokenField = swing.JTextField('insert Token')
+        else:
+            self.uiTokenField = swing.JTextField(self.api_token)
         self.uiTokenField.setPreferredSize(Dimension(200, 75))
         self.uiSaveToken = swing.JButton('Save Token',actionPerformed=self.wraperToExportNotion)
         # pick root page
@@ -344,6 +361,7 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
                 print('parent is database skiping since no title available')
         self.uiRootList = swing.JList(self.notion_title_list, valueChanged=self.menu_click)
         self.uiRootPagePane.setViewportView(self.uiRootList)
+        self._callbacks.saveExtensionSetting("token", tmp_token)
 
     def exportAndSaveToNotion(self, e):
         # [ 'method', 'status', 'path_root', 'rest of path', ... ]
