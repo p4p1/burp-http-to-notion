@@ -52,4 +52,5 @@ SOME TIME AND CURRENTLY BURP WILL FREEZE WHILE IT IS DOING ALL OF THE REQUESTS_
 
 ## Todo
  - [ ] Save token to disk
+ - [ ] Public login method
  - [ ] Add parallel processing to not block UI during upload
