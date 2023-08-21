@@ -41,6 +41,7 @@ import java.lang as lang
 
 import json
 import urllib2
+import threading
 
 class NotionWrapper():
     def __init__(self, token, base_url="https://api.notion.com/%s"):
@@ -352,6 +353,8 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
         tmp_token = self.uiTokenField.getText()
         self.nw = NotionWrapper(token=tmp_token)
         jdata = self.nw.get_pages()
+        self.notion_id_list = []
+        self.notion_title_list = []
         for data in jdata:
             print(data["parent"]["type"])
             if data["parent"]["type"] == "page_id":
@@ -364,12 +367,14 @@ class BurpExtender(IBurpExtender, IHttpListener, ITab):
         self._callbacks.saveExtensionSetting("token", tmp_token)
 
     def exportAndSaveToNotion(self, e):
+        if self.nw == None or self.root_id == None:
+            return
+        threading.Thread(target=self.exportSaveNotionThread).start()
+
+    def exportSaveNotionThread(self):
         # [ 'method', 'status', 'path_root', 'rest of path', ... ]
         root_saved = []
         api_id_root = []
-        if self.nw == None or self.root_id == None:
-            return
-
         db_id = self.nw.create_root_database_from_template(self.root_id)
         for line in self.req_data:
             if line[1] != '200': # ignore not 200 requests
