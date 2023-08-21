@@ -94,4 +94,5 @@ SOME TIME AND CURRENTLY BURP WILL FREEZE WHILE IT IS DOING ALL OF THE REQUESTS_
 ## Todo
  - [x] Save token to disk
  - [x] Public login method
- - [ ] Add parallel processing to not block UI during upload
+ - [x] Add parallel processing to not block UI during upload
+ - [x] Fixed the bug where page select was duplicating entries
