@@ -1,5 +1,7 @@
 burp-http-to-notion
 ====
+
+_I stopped unsing notion and migrated to obsidian so I won't support this anymore love you all <3_
 *Upload http data to notion automatically*
 
 ![burp-http-to-notion](https://raw.githubusercontent.com/p4p1/burp-http-to-notion/main/assets/logo.png)
